@@ -1,0 +1,9 @@
+# vi temp files
+*.swp
+
+# IDE
+.vscode/
+.VSCodeCounter/
+
+# macOS
+.DS_Store
