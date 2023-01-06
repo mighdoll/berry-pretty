@@ -1,0 +1,25 @@
+import memoize from "lodash/memoize";
+
+export const spaces = memoize((nesting: number): string => {
+  return " ".repeat(nesting);
+});
+
+const defaultCallerSize = 20;
+const multiLinePad = "\n" + spaces(defaultCallerSize + 3);
+
+// TODO should respect name size
+export function indentMultiLine(messages: any[]): any[] {
+  return messages.map(indentString);
+}
+
+export function padTrimCaller(caller: string, callerSize = defaultCallerSize): string {
+  return (caller + spaces(callerSize)).slice(0, callerSize);
+}
+
+function indentString(m: any): any {
+  if (typeof m === "string") {
+    return m.replace(/\n/g, multiLinePad);
+  } else {
+    return m;
+  }
+}
