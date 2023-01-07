@@ -8,7 +8,10 @@
 # macOS
 .DS_Store
 
-# pnpm
+# pnpm package manager
 .pnpm
 
 node_modules/
+
+# built files for publishing package
+dist/

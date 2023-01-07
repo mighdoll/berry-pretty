@@ -1,21 +1,31 @@
 {
-  "name": "heat",
+  "name": "berrypretty",
   "version": "0.1.0",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "dependencies": {
     "lodash": "^4.17.21"
   },
   "scripts": {
-    "test": "vitest"
+    "test": "vitest",
+    "prepublish": "rimraf dist && pnpm run build && pnpm run build:types",
+    "build": "esbuild --bundle --outdir=dist ./src/index.js",
+    "build:types": "tsc --project ./tsconfig.build.json"
   },
+  "files": [
+    "dist"
+  ],
   "devDependencies": {
     "@types/lodash": "^4.14.183",
     "chai": "^4.3.6",
     "esbuild": "0.15.5",
+    "rimraf": "^3.0.2",
+    "typescript": "^4.9.4",
     "vitest": "^0.26.3"
   },
   "packageManager": "pnpm@7.12.2"
