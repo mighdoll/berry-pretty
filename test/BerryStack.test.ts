@@ -1,3 +1,4 @@
+import { expect, test } from 'vitest'
 import { callerName } from "../src/BerryStack";
 
 const chromeBrowserStack = `Error

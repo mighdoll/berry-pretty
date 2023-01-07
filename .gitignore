@@ -7,3 +7,8 @@
 
 # macOS
 .DS_Store
+
+# pnpm
+.pnpm
+
+node_modules/

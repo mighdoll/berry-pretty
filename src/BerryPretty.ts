@@ -36,8 +36,8 @@ const circularRef = {
   iAmCircular: true,
 };
 
-if (typeof DOMRect === "undefined") {
-  (global as any).DOMRect = function () {
+if (typeof DOMRect === "undefined") { // TODO we oughtn't modify globalThis
+  (globalThis as any).DOMRect = function () {
     /**/
   };
 }
