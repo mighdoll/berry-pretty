@@ -1,29 +1,25 @@
 {
   "name": "berry-pretty",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
-  "repository": "github:mighdoll/berry-pretty",
+  "type": "module",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js"
-    }
+  "dependencies": {
+    "lodash": "^4.17.21"
   },
   "scripts": {
     "test": "vitest",
     "prepublish": "rimraf dist && pnpm run build && pnpm run build:types",
-    "build": "esbuild --bundle --sourcemap --format=esm --outdir=dist ./src/index.js",
+    "build": "esbuild --bundle --outdir=dist ./src/index.js",
     "build:types": "tsc --project ./tsconfig.build.json"
   },
   "files": [
     "dist"
   ],
-  "dependencies": {
-    "lodash": "^4.17.21"
-  },
   "devDependencies": {
     "@types/lodash": "^4.14.183",
     "chai": "^4.3.6",
