@@ -1,17 +1,36 @@
 An experimental debug logging library.
 
-Use berry-pretty's `dlog` instead of calling `console.log()` directly.  
-* `dlog` statements are more concise to write and read.
-* `dlog`'s output expands nested data structures by default, and is configurable.
+Use berry-pretty's `dlog` instead of calling `console.log()` directly.
+
+### dlog
+
+- `dlog` statements are more concise to write and read in the source
 
 ```ts
-dlog({ myCount, myValue });
+dlog({ myNumber, myObject });
 ```
 
-The old way starts to feel very verbose by comparision:
+- `dlog`'s output is configurable. By default:
+  - Function name is provided automatically.
+  - Nested data structures are expanded .
+  - Floating point precision shows a manageable number of digits.
+
+```
+Main.ts:7 myFunction           | myCount: 3.142  myObject: {some: {more: "stuff"}}
+```
+
+### console.log
+
+Writing raw `console.log()` starts to feel verbose by comparision. 
 
 ```ts
-console.log("myFunction()  myCount:", myCount, " myValue:", myValue);
+console.log("myFunction()  myNumber:", myNumber, " myObject:", myObject);
+```
+
+and the logged output is harder to read or customize.
+
+```
+Main.ts:8 myFunction()  myNumber: 3.141592653589793  myObject: {some: {…}}
 ```
 
 ### Install and Use
@@ -24,7 +43,7 @@ $ npm install berry-pretty
 import { dlog } from "berry-pretty";
 ```
 
-### Features 
+### Features
 
 - function name is logged automatically
 - variable names are logged automatically
@@ -54,5 +73,6 @@ dLogDefaultOptions(options); // set default options for all future logging
 
 ### Status
 
-Early, experimental, but already seems useful.
+Early, experimental, but already seems useful. 
 Needs testing on non-chrome and non-macos platforms.
+Contributions welcome.

@@ -14,7 +14,7 @@
   "scripts": {
     "test": "vitest",
     "prepublish": "rimraf dist && pnpm run build && pnpm run build:types",
-    "build": "esbuild --bundle --outdir=dist ./src/index.js",
+    "build": "esbuild --bundle --sourcemap --format=esm --outdir=dist ./src/index.js",
     "build:types": "tsc --project ./tsconfig.build.json"
   },
   "files": [
