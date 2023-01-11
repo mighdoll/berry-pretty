@@ -1,6 +1,6 @@
 {
   "name": "berry-pretty",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -8,6 +8,7 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "repository": "github:mighdoll/berry-pretty",
   "dependencies": {
     "lodash": "^4.17.21"
   },
