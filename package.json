@@ -5,12 +5,12 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "repository": "github:mighdoll/berry-pretty",
-  "dependencies": {
-    "lodash": "^4.17.21"
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js"
+    }
   },
   "scripts": {
     "test": "vitest",
@@ -21,6 +21,9 @@
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
   "devDependencies": {
     "@types/lodash": "^4.14.183",
     "chai": "^4.3.6",
