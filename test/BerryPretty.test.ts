@@ -1,6 +1,6 @@
 import { should } from "chai";
 import { pretty } from "../src/BerryPretty";
-import { expect, test } from "vitest";
+import { test } from "vitest";
 should();
 
 test("number", () => {
