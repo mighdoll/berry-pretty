@@ -1,6 +1,6 @@
 {
   "name": "berry-pretty",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -25,12 +25,12 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/lodash": "^4.14.183",
-    "chai": "^4.3.6",
-    "esbuild": "0.15.5",
-    "rimraf": "^3.0.2",
-    "typescript": "^4.9.4",
-    "vitest": "^0.26.3"
+    "@types/lodash": "^4.14.194",
+    "chai": "^4.3.7",
+    "esbuild": "0.17.19",
+    "rimraf": "^5.0.1",
+    "typescript": "^5.0.4",
+    "vitest": "^0.31.1"
   },
   "packageManager": "pnpm@7.12.2"
 }
