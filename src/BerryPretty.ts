@@ -1,4 +1,16 @@
-import _ from "lodash";
+import head from "lodash/head";
+import isBoolean from "lodash/isBoolean";
+import isDate from "lodash/isDate";
+import isElement from "lodash/isElement";
+import isError from "lodash/isError";
+import isFunction from "lodash/isFunction";
+import isMap from "lodash/isMap";
+import isNumber from "lodash/isNumber";
+import isSet from "lodash/isSet";
+import isString from "lodash/isString";
+import isSymbol from "lodash/isSymbol";
+import tail from "lodash/tail";
+import take from "lodash/take";
 import { spaces } from "./BerryStringUtil";
 import { replaceUndefined } from "./ReplaceUndefined";
 
@@ -36,13 +48,17 @@ const circularRef = {
   iAmCircular: true,
 };
 
-if (typeof DOMRect === "undefined") { // TODO we oughtn't modify globalThis
+if (typeof DOMRect === "undefined") {
+  // TODO we oughtn't modify globalThis
   (globalThis as any).DOMRect = function () {
     /**/
   };
 }
 
-export function pretty(value: unknown, options: BerryPrettyOptions = {}): string {
+export function pretty(
+  value: unknown,
+  options: BerryPrettyOptions = {}
+): string {
   const opts = replaceUndefined(options, defaultOptions);
   const { wrapLength, compact } = opts;
 
@@ -78,36 +94,36 @@ function prettyRecursive(value: any, options: Options, state: State): string {
     result = "...";
   } else if (isInteger(value)) {
     result = value.toFixed();
-  } else if (_.isNumber(value)) {
+  } else if (isNumber(value)) {
     result = prettyFloat(value, options.precision);
-  } else if (_.isString(value)) {
+  } else if (isString(value)) {
     result = `"${replaceSpecials(value)}"`;
   } else if (arrayIsh(value)) {
     result = arrayToString(value, options, state);
-  } else if (_.isDate(value)) {
+  } else if (isDate(value)) {
     result = value.toLocaleString();
-  } else if (_.isFunction(value)) {
+  } else if (isFunction(value)) {
     result = "function " + value.name + "()";
-  } else if (_.isElement(value)) {
+  } else if (isElement(value)) {
     result = value;
   } else if (value === circularRef) {
     result = "<circular reference>"; // TODO can we let console logger put an expandable reference here?
   } else if (value instanceof DOMRect) {
     const { top, left, height, width } = value;
     result = prettyRecursive({ top, left, height, width }, options, state);
-  } else if (_.isSymbol(value)) {
+  } else if (isSymbol(value)) {
     result = value.toString();
-  } else if (_.isError(value)) {
+  } else if (isError(value)) {
     result = errorToString(value, options, state);
-  } else if (_.isMap(value)) {
+  } else if (isMap(value)) {
     result = mapToString(value, options, state);
-  } else if (_.isSet(value)) {
+  } else if (isSet(value)) {
     result = setToString(value, options, state);
   } else if (value && value[Symbol.iterator]) {
     result = iterableToString(value, options, state);
-  } else if (_.isObject(value)) {
+  } else if (isObject(value)) {
     result = objectToString(value as Record<string, unknown>, options, state);
-  } else if (_.isBoolean(value)) {
+  } else if (isBoolean(value)) {
     result = value ? "true" : "false";
   } else if (value === null) {
     result = "null";
@@ -131,7 +147,10 @@ function replaceSpecials(s: string): string {
   return [...s].map((c) => specials.get(c) || c).join("");
 }
 
-function replaceCircular(keyValues: KeyValue[], seen: Set<unknown>): KeyValue[] {
+function replaceCircular(
+  keyValues: KeyValue[],
+  seen: Set<unknown>
+): KeyValue[] {
   return keyValues.map(([key, value]) => {
     if (testCircular(value, seen)) {
       return [key, circularRef];
@@ -154,7 +173,8 @@ function testCircular(value: any, seen: Set<unknown>): boolean {
 }
 
 function isObject(value: any): value is Record<string, unknown> {
-  return _.isObject(value) && !_.isFunction(value);
+  const valueType = typeof value;
+  return value != null && (valueType === "object" || valueType === "function");
 }
 
 function arrayIsh(value: any): value is any[] {
@@ -171,7 +191,7 @@ function arrayToString(values: any[], options: Options, state: State): string {
 
 function oneLineArray(value: any[], options: Options, state: State): string {
   const expanded = [...value];
-  const values = _.take(expanded, options.maxArray).map((v) =>
+  const values = take(expanded, options.maxArray).map((v) =>
     prettyRecursive(v, options, state)
   );
   if (expanded.length > options.maxArray) {
@@ -183,7 +203,7 @@ function oneLineArray(value: any[], options: Options, state: State): string {
 function multiLineArray(value: any[], options: Options, state: State): string {
   const bracketIndent = spaces(state.nesting);
   state.nesting++;
-  const values = _.take([...value], options.maxArray).map((v) =>
+  const values = take([...value], options.maxArray).map((v) =>
     prettyRecursive(v, options, state)
   );
 
@@ -220,7 +240,11 @@ function objectToString(
     return multiLineKV(keyValues, options, state);
   }
 }
-function oneLineObj(keyValues: KeyValue[], options: Options, state: State): string {
+function oneLineObj(
+  keyValues: KeyValue[],
+  options: Options,
+  state: State
+): string {
   const kvStrings = keyValues.map(
     ([k, v]) => k + ": " + prettyRecursive(v, options, state)
   );
@@ -249,14 +273,18 @@ function multiLineKV(
   return formatKVs(kvStrings, braceIndent, indent);
 }
 
-function formatKVs(kvStrings: string[], braceIndent: string, indent: string): string {
+function formatKVs(
+  kvStrings: string[],
+  braceIndent: string,
+  indent: string
+): string {
   let indentedStrings: string[];
   let firstLine: string;
 
   if (braceIndent === "") {
     firstLine = "{ ";
-    const first = _.head(kvStrings)!;
-    indentedStrings = _.tail(kvStrings).map((kv) => indent + kv) || [];
+    const first = head(kvStrings)!;
+    indentedStrings = tail(kvStrings).map((kv) => indent + kv) || [];
     indentedStrings.unshift(first);
   } else {
     firstLine = "{\n";
@@ -306,11 +334,19 @@ function isInteger(value: any): boolean {
 }
 
 function errorToString(err: Error, options: Options, state: State): string {
-  const stack = _.head(err.stack?.split("\n").slice(1, 2));
-  return prettyRecursive({ err: err.name, message: err.message, stack }, options, state);
+  const stack = head(err.stack?.split("\n").slice(1, 2));
+  return prettyRecursive(
+    { err: err.name, message: err.message, stack },
+    options,
+    state
+  );
 }
 
-function mapToString(map: Map<unknown, unknown>, options: Options, state: State): string {
+function mapToString(
+  map: Map<unknown, unknown>,
+  options: Options,
+  state: State
+): string {
   const rawKeyValues: KeyValue[] = [...map.entries()].map(([key, value]) => {
     const keyString = prettyRecursive(key, options, state);
     return [keyString, value];
@@ -319,7 +355,11 @@ function mapToString(map: Map<unknown, unknown>, options: Options, state: State)
   return multiLineKV(keyValues, options, state, " -> ");
 }
 
-function setToString(set: Set<unknown>, options: Options, state: State): string {
+function setToString(
+  set: Set<unknown>,
+  options: Options,
+  state: State
+): string {
   const values = [...set.values()].map((value) => {
     return prettyRecursive(value, options, state);
   });
