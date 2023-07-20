@@ -5,6 +5,7 @@
   "author": "",
   "license": "ISC",
   "description": "",
+  "type": "module",
   "repository": "github:mighdoll/berry-pretty",
   "types": "./dist/index.d.ts",
   "exports": {
@@ -21,7 +22,7 @@
   "files": [
     "dist"
   ],
-  "dependencies": { },
+  "dependencies": {},
   "devDependencies": {
     "@types/lodash": "^4.14.194",
     "chai": "^4.3.7",
