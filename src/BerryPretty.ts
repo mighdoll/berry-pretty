@@ -1,5 +1,3 @@
-import head from "lodash/head";
-import tail from "lodash/tail";
 import { spaces } from "./BerryStringUtil";
 import { replaceUndefined } from "./ReplaceUndefined";
 
@@ -274,8 +272,8 @@ function formatKVs(
 
   if (braceIndent === "") {
     firstLine = "{ ";
-    const first = head(kvStrings)!;
-    indentedStrings = tail(kvStrings).map((kv) => indent + kv) || [];
+    const first = kvStrings[0];
+    indentedStrings = kvStrings.slice(1).map((kv) => indent + kv) || [];
     indentedStrings.unshift(first);
   } else {
     firstLine = "{\n";
@@ -325,7 +323,7 @@ function isInteger(value: any): boolean {
 }
 
 function errorToString(err: Error, options: Options, state: State): string {
-  const stack = head(err.stack?.split("\n").slice(1, 2));
+  const stack = err.stack?.split("\n").slice(1, 2)[0];
   return prettyRecursive(
     { err: err.name, message: err.message, stack },
     options,

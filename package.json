@@ -1,6 +1,6 @@
 {
   "name": "berry-pretty",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -21,9 +21,7 @@
   "files": [
     "dist"
   ],
-  "dependencies": {
-    "lodash": "^4.17.21"
-  },
+  "dependencies": { },
   "devDependencies": {
     "@types/lodash": "^4.14.194",
     "chai": "^4.3.7",
