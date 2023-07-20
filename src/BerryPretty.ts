@@ -3,7 +3,6 @@ import isDate from "lodash/isDate";
 import isElement from "lodash/isElement";
 import isError from "lodash/isError";
 import isFunction from "lodash/isFunction";
-import isNumber from "lodash/isNumber";
 import tail from "lodash/tail";
 import take from "lodash/take";
 import { spaces } from "./BerryStringUtil";
@@ -89,7 +88,7 @@ function prettyRecursive(value: any, options: Options, state: State): string {
     result = "...";
   } else if (isInteger(value)) {
     result = value.toFixed();
-  } else if (isNumber(value)) {
+  } else if (typeof value === "number") {
     result = prettyFloat(value, options.precision);
   } else if (typeof value === "string") {
     result = `"${replaceSpecials(value)}"`;
