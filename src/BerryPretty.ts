@@ -1,5 +1,4 @@
 import head from "lodash/head";
-import isElement from "lodash/isElement";
 import isError from "lodash/isError";
 import isFunction from "lodash/isFunction";
 import tail from "lodash/tail";
@@ -97,7 +96,7 @@ function prettyRecursive(value: any, options: Options, state: State): string {
     result = value.toLocaleString();
   } else if (isFunction(value)) {
     result = "function " + value.name + "()";
-  } else if (isElement(value)) {
+  } else if (isDomElement(value)) {
     result = value;
   } else if (value === circularRef) {
     result = "<circular reference>"; // TODO can we let console logger put an expandable reference here?
@@ -373,4 +372,12 @@ function iterableToString(
     state.iterated.set(iterable, expanded);
   }
   return arrayToString(expanded, options, state);
+}
+
+function isDomElement(value: any): boolean {
+  if (typeof Element === "undefined") {
+    return false;
+  } else {
+    return value instanceof Element || value instanceof Text;
+  }
 }
