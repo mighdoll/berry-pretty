@@ -1,4 +1,3 @@
-import isPlainObject from "lodash/isPlainObject";
 import { BerryPrettyOptions, pretty } from "./BerryPretty";
 import { callerName } from "./BerryStack";
 import { indentMultiLine, padTrimCaller } from "./BerryStringUtil";
@@ -80,7 +79,7 @@ function dLogMessages(options: DebugLogOptions, ...items: any[]): any[] {
   const opts = replaceUndefined(options, defaultOptions);
   const level = opts.stackLevel + 2;
   const messages: any[] = items.map((item) => {
-    if (isPlainObject(item)) {
+    if (item != null && typeof item == "object") {
       return debugVars(item, opts);
     } else {
       return item;
