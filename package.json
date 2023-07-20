@@ -24,7 +24,6 @@
   ],
   "dependencies": {},
   "devDependencies": {
-    "@types/lodash": "^4.14.194",
     "chai": "^4.3.7",
     "esbuild": "0.17.19",
     "rimraf": "^5.0.1",
