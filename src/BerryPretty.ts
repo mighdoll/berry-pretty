@@ -6,7 +6,6 @@ import isFunction from "lodash/isFunction";
 import isMap from "lodash/isMap";
 import isNumber from "lodash/isNumber";
 import isSet from "lodash/isSet";
-import isSymbol from "lodash/isSymbol";
 import tail from "lodash/tail";
 import take from "lodash/take";
 import { spaces } from "./BerryStringUtil";
@@ -109,7 +108,7 @@ function prettyRecursive(value: any, options: Options, state: State): string {
   } else if (value instanceof DOMRect) {
     const { top, left, height, width } = value;
     result = prettyRecursive({ top, left, height, width }, options, state);
-  } else if (isSymbol(value)) {
+  } else if (typeof value === "symbol") {
     result = value.toString();
   } else if (isError(value)) {
     result = errorToString(value, options, state);
