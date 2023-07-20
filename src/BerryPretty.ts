@@ -3,9 +3,7 @@ import isDate from "lodash/isDate";
 import isElement from "lodash/isElement";
 import isError from "lodash/isError";
 import isFunction from "lodash/isFunction";
-import isMap from "lodash/isMap";
 import isNumber from "lodash/isNumber";
-import isSet from "lodash/isSet";
 import tail from "lodash/tail";
 import take from "lodash/take";
 import { spaces } from "./BerryStringUtil";
@@ -112,9 +110,9 @@ function prettyRecursive(value: any, options: Options, state: State): string {
     result = value.toString();
   } else if (isError(value)) {
     result = errorToString(value, options, state);
-  } else if (isMap(value)) {
+  } else if (value instanceof Map || (value && value.constructor === Map)) {
     result = mapToString(value, options, state);
-  } else if (isSet(value)) {
+  } else if (value instanceof Set || (value && value.constructor === Set)) {
     result = setToString(value, options, state);
   } else if (value && value[Symbol.iterator]) {
     result = iterableToString(value, options, state);
