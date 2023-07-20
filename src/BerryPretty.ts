@@ -1,5 +1,4 @@
 import head from "lodash/head";
-import isBoolean from "lodash/isBoolean";
 import isDate from "lodash/isDate";
 import isElement from "lodash/isElement";
 import isError from "lodash/isError";
@@ -7,7 +6,6 @@ import isFunction from "lodash/isFunction";
 import isMap from "lodash/isMap";
 import isNumber from "lodash/isNumber";
 import isSet from "lodash/isSet";
-import isString from "lodash/isString";
 import isSymbol from "lodash/isSymbol";
 import tail from "lodash/tail";
 import take from "lodash/take";
@@ -123,8 +121,10 @@ function prettyRecursive(value: any, options: Options, state: State): string {
     result = iterableToString(value, options, state);
   } else if (isObject(value)) {
     result = objectToString(value as Record<string, unknown>, options, state);
-  } else if (isBoolean(value)) {
-    result = value ? "true" : "false";
+  } else if (value === true) {
+    result = "true";
+  } else if (value === false) {
+    result = "false";
   } else if (value === null) {
     result = "null";
   } else if (value === undefined) {
