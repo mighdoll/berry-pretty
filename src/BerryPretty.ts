@@ -1,5 +1,4 @@
 import head from "lodash/head";
-import isDate from "lodash/isDate";
 import isElement from "lodash/isElement";
 import isError from "lodash/isError";
 import isFunction from "lodash/isFunction";
@@ -94,7 +93,7 @@ function prettyRecursive(value: any, options: Options, state: State): string {
     result = `"${replaceSpecials(value)}"`;
   } else if (arrayIsh(value)) {
     result = arrayToString(value, options, state);
-  } else if (isDate(value)) {
+  } else if (value instanceof Date) {
     result = value.toLocaleString();
   } else if (isFunction(value)) {
     result = "function " + value.name + "()";
