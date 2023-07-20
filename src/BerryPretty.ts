@@ -1,8 +1,5 @@
 import head from "lodash/head";
-import isError from "lodash/isError";
-import isFunction from "lodash/isFunction";
 import tail from "lodash/tail";
-import take from "lodash/take";
 import { spaces } from "./BerryStringUtil";
 import { replaceUndefined } from "./ReplaceUndefined";
 
@@ -94,7 +91,7 @@ function prettyRecursive(value: any, options: Options, state: State): string {
     result = arrayToString(value, options, state);
   } else if (value instanceof Date) {
     result = value.toLocaleString();
-  } else if (isFunction(value)) {
+  } else if (value instanceof Function) {
     result = "function " + value.name + "()";
   } else if (isDomElement(value)) {
     result = value;
@@ -105,7 +102,7 @@ function prettyRecursive(value: any, options: Options, state: State): string {
     result = prettyRecursive({ top, left, height, width }, options, state);
   } else if (typeof value === "symbol") {
     result = value.toString();
-  } else if (isError(value)) {
+  } else if (value instanceof Error) {
     result = errorToString(value, options, state);
   } else if (value instanceof Map || (value && value.constructor === Map)) {
     result = mapToString(value, options, state);
@@ -185,9 +182,9 @@ function arrayToString(values: any[], options: Options, state: State): string {
 
 function oneLineArray(value: any[], options: Options, state: State): string {
   const expanded = [...value];
-  const values = take(expanded, options.maxArray).map((v) =>
-    prettyRecursive(v, options, state)
-  );
+  const values = expanded
+    .slice(0, options.maxArray)
+    .map((v) => prettyRecursive(v, options, state));
   if (expanded.length > options.maxArray) {
     values.push("...");
   }
@@ -197,9 +194,9 @@ function oneLineArray(value: any[], options: Options, state: State): string {
 function multiLineArray(value: any[], options: Options, state: State): string {
   const bracketIndent = spaces(state.nesting);
   state.nesting++;
-  const values = take([...value], options.maxArray).map((v) =>
-    prettyRecursive(v, options, state)
-  );
+  const values = [...value]
+    .slice(0, options.maxArray)
+    .map((v) => prettyRecursive(v, options, state));
 
   if (value.length > options.maxArray) {
     values.push("...");
