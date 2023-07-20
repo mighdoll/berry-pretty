@@ -96,7 +96,7 @@ function prettyRecursive(value: any, options: Options, state: State): string {
     result = value.toFixed();
   } else if (isNumber(value)) {
     result = prettyFloat(value, options.precision);
-  } else if (isString(value)) {
+  } else if (typeof value === "string") {
     result = `"${replaceSpecials(value)}"`;
   } else if (arrayIsh(value)) {
     result = arrayToString(value, options, state);
