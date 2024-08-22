@@ -165,6 +165,13 @@ test("undefined", () => {
   expect(resultStr).equal(`undefined`);
 });
 
+test("class", () => {
+  class Foo {}
+  const f = new Foo();
+  const resultStr = pretty(new Foo());
+  expect(resultStr).equal(`Foo {}`);
+});
+
 /**
  * 1) convert the trimmed string to a javascript object,
  * 2) call debugString on the object

@@ -108,6 +108,8 @@ function prettyRecursive(value: any, options: Options, state: State): string {
     result = setToString(value, options, state);
   } else if (value && value[Symbol.iterator]) {
     result = iterableToString(value, options, state);
+  } else if (isInstance(value)) {
+    result = instanceToString(value, options, state);
   } else if (isObject(value)) {
     result = objectToString(value as Record<string, unknown>, options, state);
   } else if (value === true) {
@@ -212,6 +214,26 @@ function multiLineArray(value: any[], options: Options, state: State): string {
   const close = bracketIndent + "]";
 
   return open + linesTogether + close;
+}
+
+function isClass(v: any): boolean {
+  return (
+    typeof v === "function" &&
+    /^class\s/.test(Function.prototype.toString.call(v))
+  );
+}
+
+function isInstance(value: any): boolean {
+  return value && isClass(value.constructor);
+}
+
+function instanceToString(
+  value: Record<string, unknown>,
+  options: Options,
+  state: State
+): string {
+  const record = objectToString(value, options, state);
+  return `${value.constructor.name} ${record}`;
 }
 
 function objectToString(
