@@ -1,7 +1,5 @@
-import { should } from "chai";
 import { pretty } from "../src/BerryPretty";
-import { test } from "vitest";
-should();
+import { test, expect } from "vitest";
 
 test("number", () => {
   verify("17.12");
@@ -68,13 +66,13 @@ test("circular reference", () => {
   const obj = {} as any;
   obj.self = obj;
   const resultStr = pretty(obj);
-  resultStr.should.equal(`{self: <circular reference>}`);
+  expect(resultStr).equal(`{self: <circular reference>}`);
 });
 
 test("function", () => {
   const obj = { fun };
   const resultStr = pretty(obj);
-  resultStr.should.equal(`{fun: function fun()}`);
+  expect(resultStr).equal(`{fun: function fun()}`);
 
   function fun(): void {
     /**/
@@ -85,13 +83,13 @@ test("symbol", () => {
   const sym = Symbol("symsym");
   const obj = { sym };
   const resultStr = pretty(obj);
-  resultStr.should.equal("{sym: Symbol(symsym)}");
+  expect(resultStr).equal("{sym: Symbol(symsym)}");
 });
 
 test("too deeply nested", () => {
   const obj = { a: { b: { c: { d: { e: { f: 1 } } } } } };
   const resultStr = pretty(obj, { maxDepth: 3 });
-  resultStr.should.equal("{a: {b: {c: ...}}}");
+  expect(resultStr).equal("{a: {b: {c: ...}}}");
 });
 
 // TODO
@@ -107,8 +105,8 @@ test("Error", () => {
   const message = "hello";
   const e = new Error(message);
   const resultStr = pretty(e);
-  resultStr.should.contain(`message: "${message}"`);
-  resultStr.should.contain("BerryPretty.test.ts");
+  expect(resultStr).contains(`message: "${message}"`);
+  expect(resultStr).contains("BerryPretty.test.ts");
 });
 
 test("Map", () => {
@@ -118,7 +116,7 @@ test("Map", () => {
   ]);
   const obj = { map, foo: "bar" };
   const resultStr = pretty(obj);
-  resultStr.should.equal(
+  expect(resultStr).eq(
     `{ map: {
     "a" -> 1,
     "b" -> 2
@@ -132,7 +130,7 @@ test("Set", () => {
   const set = new Set([1, 2]);
   const obj = { set };
   const resultStr = pretty(obj);
-  resultStr.should.equal("{set: {1, 2}}");
+  expect(resultStr).equal("{set: {1, 2}}");
 });
 
 test("iterable", () => {
@@ -142,7 +140,7 @@ test("iterable", () => {
   ]);
   const keys = map.keys();
   const resultStr = pretty(keys);
-  resultStr.should.equal(`["a", "b"]`);
+  expect(resultStr).equal(`["a", "b"]`);
 });
 
 test("long interable", () => {
@@ -159,12 +157,12 @@ test("long interable", () => {
   "beta",
   "gamma"
 ]`;
-  resultStr.should.equal(expected.trimStart());
+  expect(resultStr).equal(expected.trimStart());
 });
 
 test("undefined", () => {
   const resultStr = pretty(undefined);
-  resultStr.should.equal(`undefined`);
+  expect(resultStr).equal(`undefined`);
 });
 
 /**
@@ -181,5 +179,5 @@ function verify(original: string): void {
     console.log(expectStr);
     console.log(resultStr);
   }
-  resultStr.should.equal(expectStr);
+  expect(resultStr).equal(expectStr);
 }
