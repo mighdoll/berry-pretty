@@ -167,9 +167,23 @@ test("undefined", () => {
 
 test("class", () => {
   class Foo {}
-  const f = new Foo();
   const resultStr = pretty(new Foo());
   expect(resultStr).equal(`Foo {}`);
+});
+
+test("class in array", () => {
+  class Foo {}
+  const resultStr = pretty([new Foo()]);
+  expect(resultStr).equal(`[Foo {}]`);
+});
+
+test("class with nested elements", () => {
+  class Foo {
+    constructor(public list: Bar[]) {}
+  }
+  class Bar {}
+  const resultStr = pretty([new Foo([new Bar()])]);
+  expect(resultStr).equals("[Foo {list: [Bar {}]}]");
 });
 
 /**
