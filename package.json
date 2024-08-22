@@ -23,6 +23,7 @@
     "dist"
   ],
   "devDependencies": {
+    "@vitest/ui": "^2.0.5",
     "chai": "^5.1.1",
     "esbuild": "0.23.1",
     "rimraf": "^6.0.1",
